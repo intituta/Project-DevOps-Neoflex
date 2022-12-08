@@ -1,0 +1,27 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# master config
+A_NODE_NAME = 'machine.a'
+A_NODE_HOSTNAME = 'suleymanov.a'
+
+# machines config
+MEM = 1024
+CPU = 1
+
+# create A machine config
+Vagrant.configure("2") do |config|
+	config.vm.box = "bento/ubuntu-22.04"
+	config.vm.provider "virtualbox" do |v|
+		v.memory = MEM
+		v.cpus = CPU
+	end
+
+  # A node config
+	config.vm.define A_NODE_NAME do |a|
+		a.vm.hostname = A_NODE_HOSTNAME
+		a.vm.provider "virtualbox" do |v|
+			v.name = A_NODE_NAME
+	  end
+  end
+end
