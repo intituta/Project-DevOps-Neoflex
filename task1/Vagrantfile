@@ -1,27 +1,30 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# master config
-A_NODE_NAME = 'machine.a'
-A_NODE_HOSTNAME = 'suleymanov.a'
+# Задаем имя машины А и её hostname
+A_NODE_NAME = 'machine.a' # Указываем имя виртуальной машины
+A_NODE_HOSTNAME = 'suleymanov.a' # Указываем hostname виртуальной машины
+A_NODE_IP = '192.168.56.110' # Задаем IP адрес виртуальной машине 
 
-# machines config
-MEM = 1024
-CPU = 1
+# Задаем конфигурацию машины А
+MEM = 1024 # Указываем количество оперативной памяти
+CPU = 1 # Указываем количество ядер процессора
 
-# create A machine config
+# Задаем параметры для создания машины А
 Vagrant.configure("2") do |config|
-	config.vm.box = "bento/ubuntu-22.04"
+	config.vm.box = "bento/ubuntu-22.04" # Указываем название дистрибутива виртуальной машины
 	config.vm.provider "virtualbox" do |v|
-		v.memory = MEM
-		v.cpus = CPU
+		v.memory = MEM # Присваиваем значение ОЗУ из конфигурации машины А
+		v.cpus = CPU # Присваиваем значение ЦПУ из конфигурации машины А
 	end
 
-  # A node config
+  # Конфигурируем машину А
 	config.vm.define A_NODE_NAME do |a|
-		a.vm.hostname = A_NODE_HOSTNAME
+		a.vm.hostname = A_NODE_HOSTNAME # Присваиваем значение hostname из конфигурации имени машины А
+		a.vm.network :private_network, ip: A_NODE_IP # Присваиваем IP адрес из конфигурации машины А
+		a.vm.synced_folder ".", "/vagrant", type: "virtualbox" # Создаем общую папку между виртуальной и основной машиной
 		a.vm.provider "virtualbox" do |v|
-			v.name = A_NODE_NAME
+			v.name = A_NODE_NAME # Присваиваем значение hostname из конфигурации имени hostname А
 	  end
   end
 end
